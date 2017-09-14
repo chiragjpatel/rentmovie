@@ -1,0 +1,25 @@
+﻿@model Vidly.Models.Customer
+
+<h2>Delete Customer</h2>
+<div class="alert alert-danger">Are you sure you wants to remove : @Model.Name.ToUpper() Record? </div>
+<div class="jumbotron">
+    <h3>Customer Name: @Model.Name</h3>
+
+
+
+    Birth Date : @Model.BirthDate.GetValueOrDefault().ToString("d")
+
+    <br/>
+    Membership Types : @Model.MembershipType.Name
+
+ <div>
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(c => c.Id)
+        @Html.AntiForgeryToken()
+
+        <button class="btn btn-danger btn-lg" type="submit">Yes. Delete</button>
+    }
+
+</div>
+</div>

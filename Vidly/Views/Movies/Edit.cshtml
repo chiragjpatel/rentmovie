@@ -1,0 +1,78 @@
+﻿@model Vidly.ViewModel.MovieVM
+
+<h2>Edit Movie</h2>
+
+<div class="jumbotron">
+
+    @Html.ValidationSummary()
+    @using (Html.BeginForm("Edit", "Movies"))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Movie.Name)
+            @Html.TextBoxFor(m => m.Movie.Name, new {@class = "form-control"})
+            @Html.ValidationMessageFor(m=>m.Movie.Name)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Movie.ReleaseDate)
+            @Html.TextBoxFor(m => m.Movie.ReleaseDate,"{0: dd MMM yyyy}", new {@class = "form-control", id= "datepicker" })
+            @Html.ValidationMessageFor(m => m.Movie.ReleaseDate)
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Movie.StockQty)
+            @Html.TextBoxFor(m => m.Movie.StockQty, new {@class = "form-control"})
+            @Html.ValidationMessageFor(m => m.Movie.StockQty)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Movie.GenreId)
+            @Html.DropDownListFor(m => m.Movie.GenreId, new SelectList(Model.Genres, "Id", "Name"), "Select Genre", new {@class = "form-control"})
+            @Html.ValidationMessageFor(m => m.Movie.GenreId)
+        </div>
+        @Html.HiddenFor(m => m.Movie.Id)
+        @Html.AntiForgeryToken()
+
+
+        <button type="submit" class="btn btn-success btn-lg">Save</button>
+
+    }
+</div>
+
+@section scripts{
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style type="text/css">
+        .ui-datepicker-header {
+            background-color: #dee9d7;
+        }
+
+        .ui-datepicker-calendar {
+            background-color: #a0bf8c;
+        }
+
+        .ui-datepicker {
+            background-color: #3a6445;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script>
+        $(function () {
+
+            $("#datepicker").datepicker({
+                dateFormat: "dd MMM yy",
+                changeYear: true,
+                changeMonth: true,
+                showButtonPanel: true,
+                yearRange: "-80:+0",
+                maxDate:"-0"
+                });
+
+            $("#datepicker").datepicker("getDate");
+        });
+    </script>
+}

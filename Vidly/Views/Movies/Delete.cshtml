@@ -1,0 +1,20 @@
+﻿@model Vidly.Models.Movie
+
+<h2>Delete Movie</h2>
+
+<div class="jumbotron">
+
+    <div class="alert alert-danger">Are you sure You wants to delete : @Model.Name ?</div>
+
+    Movie Name: @Model.Name
+    Release Date: @Model.ReleaseDate
+    Quantity : @Model.StockQty
+
+    @using (Html.BeginForm("DeleteRecord", "Movies", FormMethod.Post, new {id = Model.Id}))
+    {
+        @Html.HiddenFor(m=>m.Id);
+        @Html.AntiForgeryToken();
+        <button type="submit" class="btn btn-success">Delete</button>
+
+    }
+</div>
