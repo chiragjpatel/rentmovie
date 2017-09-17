@@ -32,11 +32,13 @@ textarea {
     border: #fff36e;
 }
 
-.field-validation-error {
+.field-validation-error,
+label.error {
     color: #800000;
 
 }
-.input-validation-error {
+.input-validation-error,
+input.error {
     border: #800000;
     background-color: rgb(254, 255, 222);
 

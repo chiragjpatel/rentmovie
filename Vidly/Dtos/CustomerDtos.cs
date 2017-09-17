@@ -26,7 +26,7 @@ namespace Vidly.Dtos
         public string ImageUrl { get; set; }
 
 
-        //public MembershipTypeDtos MembershipType { get; set; }
+        public MembershipTypeDtos MembershipTypeDtos { get; set; }
 
     }
 }
