@@ -7,32 +7,27 @@
 
 <div class="jumbotron">
 
-    @using (Ajax.BeginForm("New", "Rental", new AjaxOptions
-    {
-        AllowCache = false,
-        HttpMethod = "HttpPost",
-
-    },
-                new { @id = "newRental" }
-
-                ))
-    {
+    <form id="newRental">
         <div class="form-group">
             <label>Customer</label>
             <div class="tt-container">
-                <input required="" id="customer" type="text" value="" class="form-control" />
+                <input required name="customer" id="customer" data-rule-validCustomer="true" type="text" value="" class="form-control" />
             </div>
         </div>
         <div class="form-group">
             <label>Movie</label>
             <div class="tt-container">
-                <input required id="movie" type="text" value="" class="form-control" />
+                <input required name="movie" id="movie" data-rule-validMovie="true" type="text" value="" class="form-control" />
             </div>
         </div>
         <button type="submit" class="btn btn-success btn-lg"> Rent Movies  </button>
 
-        <ul id="movies" class="list-group"></ul>
-    }
+        <div class="row">
+            <div class="col-md-5 col-sm-4">
+                <ul id="movies" class="list-group"></ul>
+            </div>
+        </div>
+    </form>
 
 </div>
 
@@ -104,7 +99,20 @@
                     $("#movies").typeahead("val", "");
                     vm.movieids.push(movie.id);
                 });
-            $("#newRental").validate({
+
+            $.validator.addMethod("ValidCustomer",
+                function() {
+                    return vm.cutomerId && vm.cutomerId !== 0;
+
+                }, "Please select valid customer.");
+
+            $.validator.addMethod("atleastOneMovie",
+                function() {
+                    return vm.movieids.length > 0;
+                }, "Please select atleast one movie.");
+
+
+            var validator = $("#newRental").validate({
 
                 submitHandler: function() {
                     //e.preventDefault();
@@ -116,13 +124,19 @@
 
                             }).done(function () {
                                 toastr.success("Rental successfully recorded");
-                            })
 
-                            .fail(function () {
+
+                        $("#customer").typeahead("val", "");
+                        $("#movie").typeahead("val", "");
+                        $("#movies").empty();
+                        vm = { movieIds: [] };
+                        validator.resetForm();
+                            })
+                    .fail(function () {
                                 toastr.fail("Unexpected Error");
 
                            });
-
+                    return false;
                 }
             });
 
